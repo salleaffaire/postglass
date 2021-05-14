@@ -5,7 +5,7 @@
   "main": "app/server.js",
   "scripts": {
     "start": "node app/server.js",
-    "unit-test": "env NODE_ENV=test nyc mocha test/unit && nyc report --reporter=lcov",
+    "unit-test": "env NODE_ENV=test nyc mocha test/unit/* && nyc report --reporter=lcov",
     "create-schema-migration": "knex migrate:make --migrations-directory app/migrations/schema",
     "create-data-migration": "knex migrate:make --migrations-directory app/migrations/seeds"
   },
@@ -22,9 +22,18 @@
   "devDependencies": {
     "chai": "^4.3.4",
     "chai-iso8601": "^1.0.0",
+    "faker": "^5.5.3",
     "mocha": "^8.4.0",
     "nyc": "^15.1.0",
+    "proxyquire": "^2.1.3",
+    "sinon": "^10.0.0",
+    "sinon-chai": "^3.6.0",
     "standard": "^16.0.3"
+  },
+  "standard": {
+    "env": [
+      "mocha"
+    ]
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
