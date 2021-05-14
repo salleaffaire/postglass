@@ -1,0 +1,45 @@
+{
+  "name": "expressservicetemplate-",
+  "version": "1.0.0",
+  "description": "A microservice template using Node JS and Express",
+  "main": "app/server.js",
+  "scripts": {
+    "start": "node app/server.js",
+    "unit-test": "env NODE_ENV=test nyc mocha test/unit && nyc report --reporter=lcov",
+    "create-schema-migration": "knex migrate:make --migrations-directory app/migrations/schema",
+    "create-data-migration": "knex migrate:make --migrations-directory app/migrations/seeds"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salleaffaire/ExpressServiceTemplate-.git"
+  },
+  "author": "Luc Martel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/salleaffaire/ExpressServiceTemplate-/issues"
+  },
+  "homepage": "https://github.com/salleaffaire/ExpressServiceTemplate-#readme",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-iso8601": "^1.0.0",
+    "mocha": "^8.4.0",
+    "nyc": "^15.1.0",
+    "standard": "^16.0.3"
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-http-context": "^1.2.4",
+    "express-jwt": "^6.0.0",
+    "express-oas-generator": "^1.0.37",
+    "jwks-rsa": "^2.0.3",
+    "knex": "^0.95.5",
+    "objection": "^2.2.15",
+    "objection-guid": "^3.0.2",
+    "pg": "^8.6.0",
+    "sqlite3": "^5.0.2",
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3"
+  }
+}
