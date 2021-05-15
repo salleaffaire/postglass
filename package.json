@@ -5,7 +5,7 @@
   "main": "app/server.js",
   "scripts": {
     "start": "node app/server.js",
-    "mocha": "mocha test/unit/*",
+    "mocha": "mocha test/unit/**",
     "unit-test": "env NODE_ENV=test nyc mocha test/unit/* && nyc report --reporter=lcov",
     "create-schema-migration": "knex migrate:make --migrations-directory app/migrations/schema",
     "create-data-migration": "knex migrate:make --migrations-directory app/migrations/seeds"

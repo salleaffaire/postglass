@@ -20,7 +20,7 @@ function decorateRequest (req, res, next) {
   next()
 }
 
-module.exports = ({ dbConnection, authHandler }) => {
+module.exports = ({ dbConnection, authHandler, errorHandler, defaultHandler }) => {
   const app = express()
 
   /* This is a preliminary implementation for api docs using openapiv2 and default spec
@@ -42,6 +42,10 @@ module.exports = ({ dbConnection, authHandler }) => {
   app.use('/api/v1/', require('./routes/users/router')({ model: UserModel, authHandler }))
 
   expressOasGenerator.handleRequests(app)
+
+  app.use(defaultHandler)
+
+  app.use(errorHandler)
 
   return app
 }

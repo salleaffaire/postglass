@@ -2,6 +2,7 @@ const config = require('./config')
 const logger = require('./logger')
 const dbConnection = require('./db/connection')
 const auth = require('./auth')
+const defaulHandler = require('./default')
 
 const startup = async () => {
   logger.info('Server starting')
@@ -15,15 +16,10 @@ const startup = async () => {
 
   const app = require('./app')({
     dbConnection: dbConnection,
-    authHandler: auth.requestHandler
+    authHandler: auth.requestHandler,
+    errorHandler: auth.errorHandler,
+    defaultHandler: defaulHandler.handler
   })
-
-  // Default route for requests not matched above
-  app.use(function (req, res) {
-    res.status(404).json({ error: 'Invalid route' })
-  })
-
-  app.use(auth.errorHandler)
 
   app.listen(config.express.port, config.express.ip)
     .on('error', (error) => {
