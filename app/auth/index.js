@@ -1,4 +1,4 @@
-const jwtAuthenticator = require('./jwt')
+const checkJwt = require('./jwt')
 const errorHandler = require('./error-handler')
 const authConfig = require('../config').auth
 const logger = require('../logger').child({ component: 'auth' })
@@ -19,7 +19,7 @@ module.exports = {
   *  1) extract and validate JWT in request
   */
   requestHandler: (authFunction) => authConfig.enabled
-    ? [authFunction || jwtAuthenticator]
+    ? [authFunction || checkJwt]
     : passThroughAuthHandler,
 
   /*

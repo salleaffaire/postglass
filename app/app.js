@@ -1,18 +1,16 @@
 const express = require('express')
 const expressOasGenerator = require('express-oas-generator')
+const cors = require('cors')
 const httpContext = require('express-http-context')
+
 const logger = require('./logger').child({ component: 'app' })
-const uuidv4 = require('uuid').v4
 
 const { Model } = require('objection')
-
 const Account = require('./routes/accounts/account-model')
 const UserModel = require('./routes/users/user-model')
 
+const uuidv4 = require('uuid').v4
 const requestIdAttribute = require('./config').request.idAttrubute
-
-const cors = require('cors')
-
 function decorateRequest (req, res, next) {
   const requestId = req.headers[requestIdAttribute] || uuidv4()
   httpContext.set('reqId', requestId)

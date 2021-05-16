@@ -44,8 +44,6 @@ module.exports = AccountModel => {
       res.status(400).json({ error: result })
     } else {
       try {
-        const parentAccountId = req.user.accountId
-
         const account = await AccountModel.findByName(name)
         if (account) {
           const message = `Account with name ${name} already exists`
@@ -54,8 +52,7 @@ module.exports = AccountModel => {
         } else {
           const createdAccount = await AccountModel.insert({
             name,
-            active,
-            parentAccountId
+            active
           })
 
           res.status(201).json(createdAccount)

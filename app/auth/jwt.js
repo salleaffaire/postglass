@@ -2,6 +2,9 @@ const authConfig = require('../config').auth
 const jwt = require('express-jwt')
 const jwksRsa = require('jwks-rsa')
 
+// https://www.npmjs.com/package/express-jwt
+// https://github.com/auth0/node-jwks-rsa/tree/034a5b552b98f65247a00297c0c50e5468a3dbee/examples/express-demo
+
 const checkJwt = jwt({
   secret: jwksRsa.expressJwtSecret({
     cache: true,

@@ -5,8 +5,12 @@ const sinonChai = require('sinon-chai')
 const faker = require('faker')
 const proxyquire = require('proxyquire')
 const config = {
-  queue: {
-    enableNotifications: 'true'
+  logger: {
+    label: process.env.LABEL || 'microservice-template',
+    logging: {
+      level: process.env.LOG_LEVEL || 'debug', // debug, verbose, info, warn, error
+      format: process.env.LOG_FORMAT || 'json' // text , json
+    }
   }
 }
 
@@ -22,8 +26,8 @@ describe('Accounts Controller', () => {
 
   beforeEach(() => {
     MockAccountModel = sinon.stub(AccountModel)
+    // controller = require('../../../app/routes/accounts/controller')(MockAccountModel)
     controller = proxyquire('../../../app/routes/accounts/controller', { '../../config.js': config })(MockAccountModel)
-
     responseStub.status = sinon.stub().returns(responseStub)
     responseStub.json = sinon.stub().returns(responseStub)
   })
@@ -81,7 +85,7 @@ describe('Accounts Controller', () => {
       expect(responseStub.json).to.have.been.calledOnceWith(
         sinon.match({ _id: id, ...req.body })
       )
-      expect(MockAccountModel.insert).to.have.been.calledOnceWith({ ...req.body, parentAccountId: req.user.accountId })
+      expect(MockAccountModel.insert).to.have.been.calledOnceWith({ ...req.body })
     })
 
     it('Returns 409 for existing account name', async () => {
