@@ -22,7 +22,7 @@ When `AUTH_DISABLED` is left unset, all routes expect a JWT Bearer token.
 
 You can configure the issuer and audience in the `app/config.js` file. 
 
-```
+```javascript
 config.auth = {
   enabled: !process.env.AUTH_DISABLED,
   audience: process.env.AUTH_AUDIENCE || '',
@@ -37,4 +37,19 @@ To disable authentication set the `AUTH_DISABLED` environment variable to "1" (o
 ```
 AUTH_DISABLED="1" npm start
 ```
+
+### Overriding the auth handler
+
+It is possible to easily override the auth handler by providing an alternate handler to the authhandler() function at the router level.
+
+For example,
+
+```javascript
+  router.get('/users', authHandler((res, req, next) => {
+    setUser(req, { userName: 'test.user@acme.com', id: 'f405d0b1-9577-4f41-b6d6-6e4d88e68db7' })
+    next()
+  }), controller.getAllUsers)
+```
+
+overrides and bypass the auth handler for the `GET /users` route only.
 

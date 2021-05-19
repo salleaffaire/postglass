@@ -1,5 +1,7 @@
 'use strict'
 
+const setUser = require('../../auth/set-user')
+
 module.exports = ({ model, authHandler }) => {
   const router = require('express').Router()
   const controller = require('./controller')(model)
@@ -16,7 +18,10 @@ module.exports = ({ model, authHandler }) => {
   router.put('/accounts/:accountId/users/:userId', authHandler(), controller.updateAccountUser)
   router.delete('/accounts/:accountId/users/:userId', authHandler(), controller.deleteAccountUser)
 
-  router.get('/users', authHandler(), controller.getAllUsers)
+  router.get('/users', authHandler((res, req, next) => {
+    setUser(req, { userName: 'test.user@acme.com', id: 'f405d0b1-9577-4f41-b6d6-6e4d88e68db7' })
+    next()
+  }), controller.getAllUsers)
 
   return router
 }
