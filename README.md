@@ -53,3 +53,18 @@ For example,
 
 overrides and bypass the auth handler for the `GET /users` route only.
 
+## Start postgres for development
+
+### Docker
+
+Start a dockerized PostgreSQL instance
+
+```bash
+docker run -e POSTGRES_DB=postgres -e POSTGRES_USER=postgres -e ALLOW_EMPTY_PASSWORD=yes -p 5432:5432 bitnami/postgresql:11.6.0
+```
+
+once started, you can connect to the DB from a separate terminal,
+
+```bash
+docker exec -it sad_ellis psql -d postgres -U postgres
+```
