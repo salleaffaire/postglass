@@ -4,6 +4,8 @@ const dbConnection = require('./db/connection')
 const auth = require('./auth')
 const defaulHandler = require('./default')
 
+const MongoClient = require('mongodb').MongoClient
+
 const startup = async () => {
   logger.info('Server starting')
 
@@ -14,8 +16,17 @@ const startup = async () => {
     process.exit(11)
   }
 
+  let mongoConnection
+  try {
+    mongoConnection = await MongoClient.connect(config.mongo.url)
+  } catch (error) {
+    logger.error('Unable to connect to Mongo DB: ', error)
+    process.exit(11)
+  }
+
   const app = require('./app')({
     dbConnection: dbConnection,
+    mongoConnection: mongoConnection,
     authHandler: auth.requestHandler,
     errorHandler: auth.errorHandler,
     defaultHandler: defaulHandler.handler
