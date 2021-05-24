@@ -18,7 +18,7 @@ function decorateRequest (req, res, next) {
   next()
 }
 
-module.exports = ({ dbConnection, authHandler, errorHandler, defaultHandler }) => {
+module.exports = ({ dbConnection, mongoClient, authHandler, errorHandler, defaultHandler }) => {
   const app = express()
 
   /* This is a preliminary implementation for api docs using openapiv2 and default spec
@@ -36,8 +36,12 @@ module.exports = ({ dbConnection, authHandler, errorHandler, defaultHandler }) =
   app.use([decorateRequest])
   app.use(cors())
 
+  // PostgreSQL backed routes
   app.use('/api/v1/', require('./routes/accounts/router')({ model: Account, authHandler }))
   app.use('/api/v1/', require('./routes/users/router')({ model: UserModel, authHandler }))
+
+  // MongoDB backed routes
+  app.use('/api/v1', require('./routes/potatoes/router')({ mongoClient: mongoClient.db('potatoes').collection('potatoes'), authHandler }))
 
   expressOasGenerator.handleRequests(app)
 

@@ -17,6 +17,30 @@ content-type: application/json
 GET http://localhost:8080/api/v1/users HTTP/1.1
 content-type: application/json
 
+# Create a potato
+###
+POST http://localhost:8080/api/v1/potatoes HTTP/1.1
+content-type: application/json
+
+{
+  "name" : "mr potato joe"
+}
+
+# Fetch all potatoes
+###
+GET http://localhost:8080/api/v1/potatoes?page=0&limit=4 HTTP/1.1
+content-type: application/json
+
+{
+  "nothing" : "here"
+}
+
+# Fetch one potato
+###
+GET http://localhost:8080/api/v1/potatoes/cf5fdb06-2052-4bdc-b5e2-793202bebaf1 HTTP/1.1
+content-type: application/json
+
+
 # Create a new user
 ###
 POST http://localhost:8080/api/v1/accounts/c68fc448-aafb-4eac-8c6d-4f7ac02de417/users

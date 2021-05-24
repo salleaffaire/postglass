@@ -32,7 +32,7 @@ config.db = {
 }
 
 config.mongo = {
-  url: process.env.MONGO_URL || 'mongodb://localhost:27017'
+  uri: process.env.MONGO_URI || 'mongodb://localhost:27017'
 }
 
 config.logger = {
