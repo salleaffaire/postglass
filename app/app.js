@@ -6,8 +6,10 @@ const httpContext = require('express-http-context')
 const logger = require('./logger').child({ component: 'app' })
 
 const { Model } = require('objection')
-const Account = require('./routes/accounts/account-model')
+const AccountModel = require('./routes/accounts/account-model')
 const UserModel = require('./routes/users/user-model')
+const ObjectModel = require('./routes/objects/object-model')
+const ClassModel = require('./routes/classes/class-model')
 
 const uuidv4 = require('uuid').v4
 const requestIdAttribute = require('./config').request.idAttrubute
@@ -37,11 +39,10 @@ module.exports = ({ dbConnection, mongoClient, authHandler, errorHandler, defaul
   app.use(cors())
 
   // PostgreSQL backed routes
-  app.use('/api/v1/', require('./routes/accounts/router')({ model: Account, authHandler }))
+  app.use('/api/v1/', require('./routes/accounts/router')({ model: AccountModel, authHandler }))
   app.use('/api/v1/', require('./routes/users/router')({ model: UserModel, authHandler }))
-
-  // MongoDB backed routes
-  app.use('/api/v1', require('./routes/potatoes/router')({ mongoClient: mongoClient.db('potatoes').collection('potatoes'), authHandler }))
+  app.use('/api/v1/', require('./routes/objects/router')({ model: ObjectModel, authHandler }))
+  app.use('/api/v1/', require('./routes/classes/router')({ model: ClassModel, authHandler }))
 
   expressOasGenerator.handleRequests(app)
 

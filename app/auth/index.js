@@ -3,6 +3,12 @@ const errorHandler = require('./error-handler')
 const authConfig = require('../config').auth
 const logger = require('../logger').child({ component: 'auth' })
 const setUser = require('./set-user')
+const UserModel = require('../routes/users/user-model')
+
+const loadUser = (model) => async (res, req, next) => {
+  req.user = ''
+  next()
+}
 
 if (!authConfig.enabled) {
   logger.warn('Using pass-through authentication handler!')
@@ -19,7 +25,7 @@ module.exports = {
   *  1) extract and validate JWT in request
   */
   requestHandler: (authFunction) => authConfig.enabled
-    ? [authFunction || checkJwt]
+    ? [authFunction || checkJwt, loadUser(UserModel)]
     : passThroughAuthHandler,
 
   /*
